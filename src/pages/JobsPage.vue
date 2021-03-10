@@ -1,54 +1,54 @@
 <template>
-  <div class="cars-page container">
+  <div class="job-page container">
     <div class="row">
       <div class="col text-center">
-        <h1>Cars</h1>
+        <h1>Jobs</h1>
       </div>
     </div>
     <div class="row my-3">
-      <form class="form-inline" @submit.prevent="createCar">
+      <form class="form-inline" @submit.prevent="createJob">
         <div class="form-group m-2">
           <input
             type="text"
-            name="make"
-            id="make"
+            name="jobTitle"
+            id="jobTitle"
             class="form-control"
-            placeholder="Make"
+            placeholder="Job Title"
             aria-describedby="helpId"
-            v-model="state.newCar.make"
+            v-model="state.newJob.jobTitle"
           />
         </div>
         <div class="form-group m-2">
           <input
             type="text"
-            name="model"
-            id="model"
+            name="company"
+            id="company"
             class="form-control"
-            placeholder="Model"
+            placeholder="Company"
             aria-describedby="helpId"
-            v-model="state.newCar.model"
+            v-model="state.newJob.company"
           />
         </div>
         <div class="form-group m-2">
           <input
             type="number"
-            name="year"
-            id="year"
+            name="hours"
+            id="hours"
             class="form-control"
-            placeholder="Year"
+            placeholder="Hours"
             aria-describedby="helpId"
-            v-model="state.newCar.year"
+            v-model="state.newJob.hours"
           />
         </div>
         <div class="form-group m-2">
           <input
             type="number"
-            name="price"
-            id="price"
+            name="rate"
+            id="rate"
             class="form-control"
-            placeholder="Price"
+            placeholder="Rate"
             aria-describedby="helpId"
-            v-model="state.newCar.price"
+            v-model="state.newJob.rate"
           />
         </div>
         <div class="form-group m-2">
@@ -59,25 +59,14 @@
             class="form-control"
             placeholder="Description"
             aria-describedby="helpId"
-            v-model="state.newCar.description"
-          />
-        </div>
-        <div class="form-group m-2">
-          <input
-            type="text"
-            name="imgUrl"
-            id="imgUrl"
-            class="form-control"
-            placeholder="ImgUrl"
-            aria-describedby="helpId"
-            v-model="state.newCar.imgUrl"
+            v-model="state.newJob.description"
           />
         </div>
         <button class="btn btn-info mx-auto my-2" type="submit">Create</button>
       </form>
     </div>
     <div class="row">
-      <Car v-for="carData in state.cars" :key="carData._id" :car="carData" />
+      <Job v-for="jobData in state.jobs" :key="jobData._id" :job="jobData" />
     </div>
   </div>
 </template>
@@ -85,34 +74,34 @@
 <script>
 import { reactive, computed, onMounted } from 'vue'
 import { AppState } from '../Appstate'
-import { carsService } from '../services/CarsService'
-import Car from '../components/Car'
+import { jobsService } from '../services/JobsService'
+import Job from '../components/Job'
 import { useRouter } from 'vue-router'
 
 export default {
-  name: 'CarsPage',
+  name: 'JobsPage',
   setup() {
     const router = useRouter()
     const state = reactive({
-      cars: computed(() => AppState.cars),
-      newCar: {}
+      jobs: computed(() => AppState.jobs),
+      newJob: {}
     })
     // NOTE this runs when the page/component is first 'mounted' to the dom
     onMounted(() => {
-      carsService.getCars()
+      jobsService.getJobs()
     })
 
     return {
       state,
-      async createCar() {
-        const carId = await carsService.createCar(state.newCar)
-        router.push({ name: 'CarDetails', params: { id: carId } })
-        state.newCar = {}
+      async createJob() {
+        const jobId = await jobsService.createJob(state.newJob)
+        router.push({ name: 'JobDetails', params: { id: jobId } })
+        state.newJob = {}
       }
     }
   },
   components: {
-    Car
+    Job
   }
 }
 </script>

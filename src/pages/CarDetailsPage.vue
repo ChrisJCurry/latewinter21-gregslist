@@ -1,13 +1,26 @@
 <template>
   <div class="car-details">
-    <h1>WElcome to the details page</h1>
-    {{ state.car }}
+    <h1 class="text-center py-3">Welcome to the details page</h1>
+    <div class="row d-flex justify-content-center">
+      <div class="col-4">
+    <!-- NOTE the route contains both the name and an object to provide needed params -->
+    <router-link :to="{name: 'CarDetails', params: {id: state.car._id}}" >
+      <div class="card text-dark">
+        <img class="card-img-top" :src="state.car.imgUrl" alt="car">
+        <div class="card-body">
+          <h4 class="card-title text-center"><span class="float-left">{{state.car.make}}</span> | <span class="float-right">{{state.car.model}}</span></h4>
+          <p class="card-text mt-4 pt-3 text-center">Year: {{state.car.year}} | ${{state.car.price}}</p>
+        </div>
+      </div>
+    </router-link>
+  </div>
+    </div>
     <button type="button" class="btn btn-outline-danger" @click="deleteCar">
       Delete Car
     </button>
 
-    <form class="form-inline" onsubmit="app.carsController.createCar(event)">
-      <div class="form-group">
+    <form class="form-inline justify-content-center">
+      <div class="form-group m-2">
         <input
           type="text"
           name="make"
@@ -18,7 +31,7 @@
           v-model="state.car.make"
         />
       </div>
-      <div class="form-group">
+      <div class="form-group m-2">
         <input
           type="text"
           name="model"
@@ -29,7 +42,7 @@
           v-model="state.car.model"
         />
       </div>
-      <div class="form-group">
+      <div class="form-group m-2">
         <input
           type="number"
           name="year"
@@ -40,7 +53,7 @@
           v-model="state.car.year"
         />
       </div>
-      <div class="form-group">
+      <div class="form-group m-2">
         <input
           type="number"
           name="price"
@@ -51,7 +64,7 @@
           v-model="state.car.price"
         />
       </div>
-      <div class="form-group">
+      <div class="form-group m-2">
         <input
           type="text"
           name="description"
@@ -62,7 +75,7 @@
           v-model="state.car.description"
         />
       </div>
-      <div class="form-group">
+      <div class="form-group m-2">
         <input
           type="text"
           name="imgUrl"
@@ -73,7 +86,9 @@
           v-model="state.car.imgUrl"
         />
       </div>
-      <button class="btn btn-info" type="submit">Create</button>
+      <div>
+        <button class="btn btn-info" type="submit">Create</button>
+      </div>
     </form>
   </div>
 </template>
